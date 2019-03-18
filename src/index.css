@@ -35,7 +35,7 @@ div.cell {
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   cursor: pointer;
-  transition: background-color 0.5s ease;
+  display: flex;
 }
 
 div.cell:hover {
@@ -43,10 +43,25 @@ div.cell:hover {
 }
 
 div.cell.white {
-  background-color: rgba(255, 255, 255, 0.5);
 }
 
+div.cell.white>div {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  margin: auto;
+  transition: background-color 0.5s ease;
+}
 
 div.cell.black {
+}
+
+div.cell.black>div {
   background-color: rgba(0, 0, 0, 0.5);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  margin: auto;
+  transition: background-color 0.5s ease;
 }
