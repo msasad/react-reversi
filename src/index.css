@@ -65,3 +65,51 @@ div.cell.black>div {
   margin: auto;
   transition: background-color 0.5s ease;
 }
+
+div.status {
+  width: 300px;
+  margin: auto;
+  display: flex;
+  margin-top: 20px;
+  background: teal;
+}
+
+div.status > div {
+  width: 100%;
+  border: 5px outset rgb(0, 100, 100);
+  padding: 5px;
+  display: flex;
+}
+
+
+/* div.status > div.active {
+  border-color: rgb(0, 155, 155);
+} */
+
+div.status .status-black {
+  text-align: right;
+}
+
+div.circle {
+  height: 100%;
+  width: 15%;
+  border-radius: 50%;
+  margin: auto;
+}
+
+div.circle.white {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+div.circle.black {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.arrow {
+  visibility: hidden;
+  margin: auto;
+}
+
+div.active > div.arrow {
+  visibility: visible;
+}
