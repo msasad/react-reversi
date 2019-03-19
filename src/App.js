@@ -77,13 +77,11 @@ class App extends Component {
     this.checkMove = this.checkMove.bind(this);
   }
 
-  checkMove(i, j, apply) {
-    //console.log(apply ? 'applying moves' : 'checking moves');
+  checkMove(i, j, apply, black_turn) {
     let black = this.state.black,
       white = this.state.white;
     let newArray = [...this.state.array];
-    let our = ~~!this.state.black_turn;
-    //console.log('our', our);
+    let our = black_turn === undefined ? (~~!this.state.black_turn) :(~~!black_turn);
     let other = ~~!our;
     let otherX, otherY, ourX, ourY;
     let moved = false;
@@ -106,9 +104,12 @@ class App extends Component {
         otherY = col;
       }
     }
-    //foundOur && console.log('←', foundOur);
     if(foundOur && ourY<j-1) {
-      foundMove = true;
+      if (!apply) {
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        //return {true, false};
+        return {foundMove:true, moved:false};
+      }
       for(let col=ourY+1; apply && col<j; col++) {
         newArray[i][col] = our;
         if (our === 1) {
@@ -149,7 +150,11 @@ class App extends Component {
     }
     //foundOur && console.log('↙', foundOur);
     if(foundOur && ourX>i+1 && ourY<j+1) {
-      foundMove = true;
+      if (!apply) {
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
+      //foundMove = true;
       for(let row=ourX-1, col=ourY+1; apply && row>i && col<j; row--, col++) {
         newArray[row][col] = our;
         //our == 1 ? white++ : black++;
@@ -192,7 +197,12 @@ class App extends Component {
     }
     foundOur && console.log('↓', foundOur);
     if(foundOur && ourX>i+1) {
-      foundMove = true;
+      if (!apply) {
+        //return {true, false};
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
+      //foundMove = true;
       for(let row=ourX-1; apply && row>i; row--) {
         newArray[row][j] = our;
         if (our === 1) {
@@ -233,7 +243,12 @@ class App extends Component {
     }
     //foundOur && console.log('↘', foundOur);
     if(foundOur && ourX>i+1 && ourY>j+1) {
-      foundMove = true;
+      //foundMove = true;
+      if (!apply) {
+        //return {true, false};
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
       for(let row=ourX-1, col=ourY-1; apply && row>i && col>j; row--, col--) {
         newArray[row][col] = our;
         //our == 1 ? white++ : black++;
@@ -276,7 +291,12 @@ class App extends Component {
     }
     //foundOur && console.log('→', foundOur);
     if(foundOur && ourY>j+1) {
-      foundMove = true;
+      //foundMove = true;
+      if (!apply) {
+        //return {true, false};
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
       for(let col=ourY-1; apply && col>j; col--) {
         newArray[i][col] = our;
         if (our === 1) {
@@ -317,7 +337,12 @@ class App extends Component {
     }
     //foundOur && console.log('↗', foundOur);
     if(foundOur && ourX<i-1 && ourY>j+1) {
-      foundMove = true;
+      //foundMove = true;
+      if (!apply) {
+        //return {true, false};
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
       for(let row=ourX+1, col=ourY-1; apply && row<i && col>j; row++, col--) {
         newArray[row][col] = our;
         moved = true;
@@ -359,7 +384,12 @@ class App extends Component {
     }
     //foundOur && console.log('↑', foundOur);
     if(foundOur && ourX<i-1) {
-      foundMove = true;
+      //foundMove = true;
+      if (!apply) {
+        //return {true, false};
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
       for(let row=ourX+1; apply && row<i; row++) {
         newArray[row][j] = our;
         if (our === 1) {
@@ -401,7 +431,10 @@ class App extends Component {
     }
     //foundOur && console.log('↖', foundOur);
     if(foundOur && ourX<i-1 && ourY<j-1) {
-      foundMove = true;
+      if (!apply) {
+        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
+        return {foundMove:true, moved:false};
+      }
       for(let row=ourX+1, col=ourY+1; apply && row<i && col<j; row++, col++) {
         newArray[row][col] = our;
         moved = true;
@@ -431,7 +464,7 @@ class App extends Component {
         white: white,
       });
     }
-    return {foundMove, moved};
+    return {foundMove: foundMove, moved: moved};
   }
 
   handleClick(i, j) {
@@ -460,35 +493,45 @@ class App extends Component {
     let moved = this.checkMove(i, j, true).moved;
     let black_turn = this.state.black_turn;
     if(moved) {
-      this.setState({black_turn: !black_turn});
-    }
-    let hasMove = false;
-    for(let i=0; i<8; i++) {
-      for(let j=0; j<8; j++) {
-        if(this.checkMove(i, j, false).foundMove) {
-          hasMove = true;
-          break;
-        }
-      }
-      if(hasMove) {
-        break;
-      }
-    }
-    if(!hasMove) {
-      this.setState({black_turn: !black_turn});
+      let hasMove = false;
+      console.log('checking possible move for', black_turn ? 'white' : 'black');
       for(let i=0; i<8; i++) {
         for(let j=0; j<8; j++) {
-          if(this.checkMove(i, j, false).hasMove) {
-            hasMove = true;
-            break;
+          if(this.state.array[i][j] === undefined) {
+            if(this.checkMove(i, j, false, !black_turn).foundMove) {
+              console.log('checking ', i, j, true);
+              hasMove = true;
+              break;
+            }
           }
         }
         if(hasMove) {
+          console.log('found possible move for', black_turn ? 'white' : 'black');
+          this.setState({black_turn: !black_turn});
           break;
         }
       }
       if(!hasMove) {
-        console.log('both players don\'t have any move. The game is finished');
+        console.log('current player has no moves! passing turn to other player');
+        //this.setState({black_turn: !black_turn});
+        console.log('checking possible move for', black_turn ? 'white' : 'black');
+        for(let i=0; i<8; i++) {
+          for(let j=0; j<8; j++) {
+            if(this.state.array[i][j] === undefined) {
+              if(this.checkMove(i, j, false).foundMove) {
+                hasMove = true;
+                break;
+              }
+            }
+          }
+          if(hasMove) {
+          console.log('found possible move for', !black_turn ? 'white' : 'black');
+            break;
+          }
+        }
+        if(!hasMove) {
+          console.log('both players don\'t have any move. The game is finished');
+        }
       }
     }
     //this.setState({black_turn: black_turn});
