@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+class MessageBox extends Component {
+  render() {
+    let classes = "message-box";
+    if(this.props.show) {
+      classes += " visible";
+    }
+    return (
+      <div className={classes}> Black wins: 34 - 30 </div>
+    )
+  }
+}
+
 class Cell extends Component {
   render() {
     if (this.props.value === 1) {
@@ -74,7 +86,8 @@ class App extends Component {
       size: 8,
       black_turn: true,
       black: 2,
-      white: 2
+      white: 2,
+      gameOver: false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -534,6 +547,7 @@ class App extends Component {
           }
         }
         if(!hasMove) {
+          this.setState({gameOver: true});
           console.log('both players don\'t have any move. The game is finished');
         }
       }
@@ -544,6 +558,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <MessageBox show={this.state.gameOver} />
         <div className="board">
           <Row key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} />
           <Row key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} />

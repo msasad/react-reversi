@@ -113,3 +113,24 @@ div.arrow {
 div.active > div.arrow {
   visibility: visible;
 }
+
+div.message-box {
+  position: absolute;
+  margin: auto;
+  z-index: 999;
+  display: none;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  top: 150px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: aliceblue;
+  border: 1px solid black;
+
+}
+
+div.message-box.visible {
+  display: block;
+}
