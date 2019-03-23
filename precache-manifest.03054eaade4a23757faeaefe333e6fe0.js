@@ -8,19 +8,19 @@ self.__precacheManifest = [
     "url": "/react-reversi/static/js/runtime~main.68517de9.js"
   },
   {
-    "revision": "965b389b3c21bb690995",
-    "url": "/react-reversi/static/js/main.965b389b.chunk.js"
+    "revision": "5c2baf01ae4c69b859ae",
+    "url": "/react-reversi/static/js/main.5c2baf01.chunk.js"
   },
   {
     "revision": "f370b753e5901661dd5d",
     "url": "/react-reversi/static/js/1.f370b753.chunk.js"
   },
   {
-    "revision": "965b389b3c21bb690995",
-    "url": "/react-reversi/static/css/main.656e7290.chunk.css"
+    "revision": "5c2baf01ae4c69b859ae",
+    "url": "/react-reversi/static/css/main.085e1079.chunk.css"
   },
   {
-    "revision": "19058c40456ac7eb1919041408f4db68",
+    "revision": "70c4bd9146360a4eb7fe0917a5df750a",
     "url": "/react-reversi/index.html"
   }
 ];
