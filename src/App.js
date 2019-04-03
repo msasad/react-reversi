@@ -4,13 +4,28 @@ import './App.css';
 
 class MessageBox extends Component {
   render() {
-    let classes = "message-box";
+    let winner, classes = "message-box", first, second;
     if(this.props.show) {
+      if(this.props.black > this.props.white) {
+        winner = 'Black';
+        first = this.props.black;
+        second = this.props.white;
+      } else if(this.props.white > this.props.black) {
+        winner = 'White';
+        second = this.props.black;
+        first = this.props.white;
+      }
       classes += " visible";
     }
-    return (
-      <div className={classes}> Black wins: 34 - 30 </div>
-    )
+    if(winner === undefined) {
+      return (
+        <div className={classes}> The game is draw! </div>
+      )
+    } else {
+      return (
+        <div className={classes}>{`${winner} wins: ${first} - ${second}`}</div>
+      )
+    }
   }
 }
 
@@ -558,7 +573,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MessageBox show={this.state.gameOver} />
+        <MessageBox show={this.state.gameOver} black={this.state.black} white={this.state.white} />
         <div className="board">
           <Row key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} />
           <Row key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} />
