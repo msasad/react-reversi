@@ -32,6 +32,30 @@ class App extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.checkMove = this.checkMove.bind(this);
+    this.resetBoard = this.resetBoard.bind(this);
+  }
+
+  resetBoard() {
+    let array = new Array(8);
+    for(let i=0; i<8; i++) {
+      array[i] = new Array(8);
+    }
+    // white: 1
+    // black: 0
+    // empty: undefined
+    array[3][3] = 1;
+    array[3][4] = 0;
+    array[4][3] = 0;
+    array[4][4] = 1;
+
+    this.setState({
+      array: array,
+      size: 8,
+      black_turn: true,
+      black: 2,
+      white: 2,
+      gameOver: false
+    });
   }
 
   checkMove(i, j, apply, black_turn) {
@@ -498,16 +522,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MessageBox show={this.state.gameOver} black={this.state.black} white={this.state.white} />
+        <MessageBox resetFn={this.resetBoard} show={this.state.gameOver} black={this.state.black} white={this.state.white} />
         <div className="board">
-          <Row key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} />
-          <Row key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} />
-          <Row key={2} i={2} handleClick={this.handleClick} array={this.state.array[2]} />
-          <Row key={3} i={3} handleClick={this.handleClick} array={this.state.array[3]} />
-          <Row key={4} i={4} handleClick={this.handleClick} array={this.state.array[4]} />
-          <Row key={5} i={5} handleClick={this.handleClick} array={this.state.array[5]} />
-          <Row key={6} i={6} handleClick={this.handleClick} array={this.state.array[6]} />
-          <Row key={7} i={7} handleClick={this.handleClick} array={this.state.array[7]} />
+          <Row over={this.state.gameOver} key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} />
+          <Row over={this.state.gameOver} key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} />
+          <Row over={this.state.gameOver} key={2} i={2} handleClick={this.handleClick} array={this.state.array[2]} />
+          <Row over={this.state.gameOver} key={3} i={3} handleClick={this.handleClick} array={this.state.array[3]} />
+          <Row over={this.state.gameOver} key={4} i={4} handleClick={this.handleClick} array={this.state.array[4]} />
+          <Row over={this.state.gameOver} key={5} i={5} handleClick={this.handleClick} array={this.state.array[5]} />
+          <Row over={this.state.gameOver} key={6} i={6} handleClick={this.handleClick} array={this.state.array[6]} />
+          <Row over={this.state.gameOver} key={7} i={7} handleClick={this.handleClick} array={this.state.array[7]} />
         </div>
         <StatusBar black={this.state.black} white={this.state.white} black_turn={this.state.black_turn} />
       </div>

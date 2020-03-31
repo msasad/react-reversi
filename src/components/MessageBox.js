@@ -3,7 +3,7 @@ import './MessageBox.css';
 
 class MessageBox extends Component {
   render() {
-    let winner, classes = "message-box", first, second;
+    let winner, first, second, classes = "message-box";
     if(this.props.show) {
       if(this.props.black > this.props.white) {
         winner = 'Black';
@@ -22,7 +22,10 @@ class MessageBox extends Component {
       )
     } else {
       return (
-        <div className={classes}>{`${winner} wins: ${first} - ${second}`}</div>
+        <div>
+          <div className={classes}>{`${winner} wins: ${first} - ${second}`}</div>
+          <button className="new-game" onClick={this.props.resetFn}> New Game </button>
+        </div>
       )
     }
   }
