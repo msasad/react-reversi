@@ -4,6 +4,7 @@ import './Cell.css';
 class Cell extends Component {
   render() {
     let over = this.props.over ? 'over' : '';
+    let hasMove = this.props.hasMove ? 'has-move' : '';
     if (this.props.value === 1) {
       return (
         <div className="cell white over" onClick={() => this.props.handleClick(this.props.i, this.props.j)}>
@@ -17,7 +18,7 @@ class Cell extends Component {
         </div>
       );
     }
-    return (<div className={"cell " + over} onClick={() => this.props.handleClick(this.props.i, this.props.j)}></div>);
+    return (<div className={"cell " + `${over} ${hasMove}`} onClick={() => this.props.handleClick(this.props.i, this.props.j)}></div>);
   }
 }
 

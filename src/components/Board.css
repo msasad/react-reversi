@@ -5,4 +5,5 @@ div.board {
   flex-direction: column;
   background-color: teal;
   margin: auto;
+  margin-top: 20%;
 }

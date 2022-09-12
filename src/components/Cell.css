@@ -6,7 +6,11 @@ div.cell {
   display: flex;
 }
 
-div.cell:not(.over):hover {
+div.cell:first-child {
+  border-left: 1px solid black;
+}
+
+div.cell.has-move:not(.over):hover {
   box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
   cursor: pointer;
 }

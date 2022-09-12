@@ -13,6 +13,10 @@ class App extends Component {
     for(let i=0; i<8; i++) {
       array[i] = new Array(8);
     }
+    let moveSet = new Array(8);
+    for(let i=0; i<8; i++) {
+      moveSet[i] = new Array(8);
+    }
     // white: 1
     // black: 0
     // empty: undefined
@@ -21,13 +25,19 @@ class App extends Component {
     array[4][3] = 0;
     array[4][4] = 1;
 
+    moveSet[5][4] = true;
+    moveSet[4][5] = true;
+    moveSet[2][3] = true;
+    moveSet[3][2] = true;
+
     this.state = {
       array: array,
       size: 8,
       black_turn: true,
       black: 2,
       white: 2,
-      gameOver: false
+      gameOver: false,
+      moveSet: moveSet,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -40,6 +50,11 @@ class App extends Component {
     for(let i=0; i<8; i++) {
       array[i] = new Array(8);
     }
+
+    let moveSet = new Array(8);
+    for(let i=0; i<8; i++) {
+      moveSet[i] = new Array(8);
+    }
     // white: 1
     // black: 0
     // empty: undefined
@@ -48,13 +63,19 @@ class App extends Component {
     array[4][3] = 0;
     array[4][4] = 1;
 
+    moveSet[5][4] = true;
+    moveSet[4][5] = true;
+    moveSet[2][3] = true;
+    moveSet[3][2] = true;
+
     this.setState({
       array: array,
       size: 8,
       black_turn: true,
       black: 2,
       white: 2,
-      gameOver: false
+      gameOver: false,
+      moveSet: moveSet,
     });
   }
 
@@ -473,6 +494,11 @@ class App extends Component {
 
     let moved = this.checkMove(i, j, true).moved;
     let black_turn = this.state.black_turn;
+    let moveSet = new Array(8);
+    for (let i=0; i<8; i++) {
+      moveSet[i] = new Array(8);
+    }
+
     if(moved) {
       let hasMove = false;
       console.log('checking possible move for', black_turn ? 'white' : 'black');
@@ -482,15 +508,16 @@ class App extends Component {
             if(this.checkMove(i, j, false, !black_turn).foundMove) {
               console.log('checking ', i, j, true);
               hasMove = true;
-              break;
+              moveSet[i][j] = true;
+            } else {
+              moveSet[i][j] = false;
             }
           }
         }
-        if(hasMove) {
-          console.log('found possible move for', black_turn ? 'white' : 'black');
-          this.setState({black_turn: !black_turn});
-          break;
-        }
+      }
+      if(hasMove) {
+        console.log('found possible move for', black_turn ? 'white' : 'black');
+        this.setState({black_turn: !black_turn, moveSet: moveSet});
       }
       if(!hasMove) {
         console.log('current player has no moves! passing turn to other player');
@@ -501,14 +528,16 @@ class App extends Component {
             if(this.state.array[i][j] === undefined) {
               if(this.checkMove(i, j, false).foundMove) {
                 hasMove = true;
-                break;
+                moveSet[i][j] = true;
+              } else {
+                moveSet[i][j] = false;
               }
             }
           }
-          if(hasMove) {
+        }
+        if(hasMove) {
           console.log('found possible move for', !black_turn ? 'white' : 'black');
-            break;
-          }
+          this.setState({moveSet: moveSet});
         }
         if(!hasMove) {
           this.setState({gameOver: true});
@@ -524,14 +553,14 @@ class App extends Component {
       <div>
         <MessageBox resetFn={this.resetBoard} show={this.state.gameOver} black={this.state.black} white={this.state.white} />
         <div className="board">
-          <Row over={this.state.gameOver} key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} />
-          <Row over={this.state.gameOver} key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} />
-          <Row over={this.state.gameOver} key={2} i={2} handleClick={this.handleClick} array={this.state.array[2]} />
-          <Row over={this.state.gameOver} key={3} i={3} handleClick={this.handleClick} array={this.state.array[3]} />
-          <Row over={this.state.gameOver} key={4} i={4} handleClick={this.handleClick} array={this.state.array[4]} />
-          <Row over={this.state.gameOver} key={5} i={5} handleClick={this.handleClick} array={this.state.array[5]} />
-          <Row over={this.state.gameOver} key={6} i={6} handleClick={this.handleClick} array={this.state.array[6]} />
-          <Row over={this.state.gameOver} key={7} i={7} handleClick={this.handleClick} array={this.state.array[7]} />
+          <Row over={this.state.gameOver} key={0} i={0} handleClick={this.handleClick} array={this.state.array[0]} moveSet={this.state.moveSet[0]}/>
+          <Row over={this.state.gameOver} key={1} i={1} handleClick={this.handleClick} array={this.state.array[1]} moveSet={this.state.moveSet[1]}/>
+          <Row over={this.state.gameOver} key={2} i={2} handleClick={this.handleClick} array={this.state.array[2]} moveSet={this.state.moveSet[2]}/>
+          <Row over={this.state.gameOver} key={3} i={3} handleClick={this.handleClick} array={this.state.array[3]} moveSet={this.state.moveSet[3]}/>
+          <Row over={this.state.gameOver} key={4} i={4} handleClick={this.handleClick} array={this.state.array[4]} moveSet={this.state.moveSet[4]}/>
+          <Row over={this.state.gameOver} key={5} i={5} handleClick={this.handleClick} array={this.state.array[5]} moveSet={this.state.moveSet[5]}/>
+          <Row over={this.state.gameOver} key={6} i={6} handleClick={this.handleClick} array={this.state.array[6]} moveSet={this.state.moveSet[6]}/>
+          <Row over={this.state.gameOver} key={7} i={7} handleClick={this.handleClick} array={this.state.array[7]} moveSet={this.state.moveSet[7]}/>
         </div>
         <StatusBar black={this.state.black} white={this.state.white} black_turn={this.state.black_turn} />
       </div>

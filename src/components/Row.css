@@ -5,3 +5,6 @@ div.row {
   flex-direction: row;
 }
 
+div.row:first-child {
+  border-top: 1px solid black;
+}
